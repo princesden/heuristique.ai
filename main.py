@@ -36,6 +36,7 @@ async def predict_v2(sequence_to_classify):
     return valhalla_distilbart_mnli(sequence_to_classify, candidate_labels, multi_class=True)
 
 # TO run >>  uvicorn main:app --reload
+# XMQ3JT6YUnb4PR2
 
 if __name__ == '__main__':
     uvicorn.run(app, host="127.0.0.1", port=8080)
