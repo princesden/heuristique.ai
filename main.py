@@ -124,10 +124,11 @@ if __name__ == '__main__':
 
     st.sidebar.image('logo.png', width=300)
     bias_selection = st.sidebar.multiselect('Select biases',
-                                            ["Appeal to Probability", "Bad Reasons Fallacy", "Masked Man Fallacy",
-                                             "Non Sequitur"])
+                                            ["Dunning-Kruger effect", "Bandwagon effect", "Negative bias",
+                                             "Illusory correlation", "Overconfidence effect"])
     if len(bias_selection) == 0:
-        bias_selection = ["space & cosmos", "scientific discovery", "microbiology", "robots", "archeology"]
+        bias_selection = ["Dunning-Kruger effect", "Bandwagon effect", "Negative bias", "Illusory correlation",
+                          "Overconfidence effect"]
 
     output_sensitivity = st.sidebar.select_slider('Algorithm Sensitivity', options=[50, 60, 70, 80, 90, 100])
     is_multiple_correct_answers = st.sidebar.checkbox('Multiple correct answers')
