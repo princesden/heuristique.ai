@@ -8,4 +8,5 @@ uvloop~=0.14.0
 httptools~=0.1.1
 streamlit~=0.75.0
 plotly~=4.14.3
-annotated-text~=1.0.1
+st-annotated-text~=1.0.1
+nltk~=3.5
