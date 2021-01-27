@@ -3,7 +3,6 @@ from annotated_text import annotated_text
 import nltk
 import joblib
 import random
-import time
 
 # **************** PAGE CONFIG *************
 st.set_page_config(
@@ -16,6 +15,7 @@ st.set_page_config(
 
 # *********************UTILITY*********************
 
+@st.cache(allow_output_mutation=True)
 def load_model():
     with open('models/valhalla-distilbart-mnli-12-6.pkl', 'rb') as file:
         model = joblib.load(file)
@@ -67,7 +67,6 @@ def parse_input_text():
 
 def execute_ml():
     prediction_set = []
-    model = load_model()
     tokens_to_classify = parse_input_text()
     for token in tokens_to_classify:
         prediction = model(token, bias_selection, multi_class=True)
@@ -86,25 +85,14 @@ def construct_annotation_elements(prediction):
         return sequence
 
 
-def progress_bar(increase_by):
-    for percent_complete in range(100):
-        time.sleep(0.1)
-        my_bar.progress(increase_by)
-
-
 def write_output():
     add_colors_set()
     result = []
     prediction_set = execute_ml()
-    increase_by = 0
     for prediction in prediction_set:
-        # st.json(prediction)
         result.append(construct_annotation_elements(prediction))
-        progress_bar(increase_by)
-        increase_by += round(100/len(prediction_set))
     st.subheader('Result')
     annotated_text(*result, height=1000)
-    progress_bar(100)
 
 
 if __name__ == '__main__':
@@ -130,6 +118,7 @@ if __name__ == '__main__':
         bias_selection = ["Dunning-Kruger effect", "Bandwagon effect", "Negative bias", "Illusory correlation",
                           "Overconfidence effect"]
 
+    model = load_model()
     output_sensitivity = st.sidebar.select_slider('Algorithm Sensitivity', options=[50, 60, 70, 80, 90, 100])
     is_multiple_correct_answers = st.sidebar.checkbox('Multiple correct answers')
     analysis_boundary = st.sidebar.radio('Analysis Boundary', ["Sentence", "Corpus"])
@@ -137,5 +126,4 @@ if __name__ == '__main__':
 
     # ************************** EXECUTION **************
     if st.button('Analyze'):
-        my_bar = st.progress(0)
         write_output()

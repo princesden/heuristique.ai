@@ -1,2 +1,5 @@
 runtime: custom
 env: flex
+app_start_timeout_sec: 1000
+manual_scaling:
+  instances: 1
